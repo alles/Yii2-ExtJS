@@ -40,7 +40,7 @@ backend
     tests/               contains tests for backend application    
     views/               contains view files for the Web application
     web/                 contains the entry script and Web resources
-frontend/				 contains ExtJS files
+frontend/                contains ExtJS files
 vendor/                  contains dependent 3rd-party packages
 environments/            contains environment-based overrides
 ```

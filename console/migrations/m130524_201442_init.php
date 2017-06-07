@@ -8,26 +8,30 @@ class m130524_201442_init extends Migration
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
-            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%user}}', [
+        $this->createTable('if not exists {{%cities}}', [
             'id' => $this->primaryKey(),
-            'username' => $this->string()->notNull()->unique(),
-            'auth_key' => $this->string(32)->notNull(),
-            'password_hash' => $this->string()->notNull(),
-            'password_reset_token' => $this->string()->unique(),
-            'email' => $this->string()->notNull()->unique(),
+            'name' => $this->string()->notNull()->unique(),
+        ], $tableOptions);
 
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
+        $this->createTable('if not exists {{%promo_codes}}', [
+            'id' => $this->primaryKey(),
+            'name' => $this->string()->notNull()->unique(),
+            'fee' => $this->decimal(10,2)->defaultValue(0),
+            'start_date' => $this->dateTime()->notNull(),
+            'end_date' => $this->dateTime()->notNull(),
+            'id_cities' => $this->integer()->notNull(),
+            'status' => 'enum("active", "inactive") not null default "inactive"',
+
+            'FOREIGN KEY (id_cities) REFERENCES {{%cities}} (id)',
         ], $tableOptions);
     }
 
     public function down()
     {
-        $this->dropTable('{{%user}}');
+        $this->dropTable('{{%promo_codes}}');
+        $this->dropTable('{{%cities}}');
     }
 }

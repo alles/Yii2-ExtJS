@@ -1,25 +1,31 @@
-# Yii2-ExtJS
+# Simple example Yii2-ExtJS
 
 A simple example work Yii2(advanced template) + ExtJS.
 
 ## Dependencies
 
 You need install:
+ * [Apache2](https://httpd.apache.org/download.cgi)
+ * [MySQL](https://www.mysql.com/downloads/)
  * [Composer](https://getcomposer.org/download/)
  * [Sencha CMD](https://www.sencha.com/products/extjs/cmd-download/).
 
 ## How to use
 
 ```
-$ git clone git@github.com:alles/Yii2-ExtJS yii2-extjs
-$ cd yii2-extjs
+$ git clone git@github.com:alles/Yii2-ExtJS
+$ cd Yii2-ExtJS
 $ composer install
+$ mysql -u root -p -e "create database yii2_extjs"
+$ mysql -u root -p -e "CREATE USER 'yii2_extjs'@'localhost' IDENTIFIED BY 'yii2_extjs'"
+$ mysql -u root -p -e "GRANT ALL PRIVILEGES ON yii2_extjs.* TO 'yii2_extjs'@'localhost' WITH GRANT OPTION"
 $ ./init --env=Development --overwrite=n
+$ ./yii migrate --interactive=0
 $ cd frontend
 $ sencha app build
 ```
 
-##### Apache config
+#### Apache config
 
 ```
 <VirtualHost *:80>
@@ -33,15 +39,6 @@ $ sencha app build
 
     <Directory /path_to_folder/backend/web>
         RewriteBase /api
-        RewriteEngine On
-
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteCond %{REQUEST_FILENAME} !-d
-
-        RewriteRule . index.php
-    </Directory>
-    <Directory /path_to_folder/frontend>
-        RewriteBase /
         RewriteEngine On
 
         RewriteCond %{REQUEST_FILENAME} !-f
