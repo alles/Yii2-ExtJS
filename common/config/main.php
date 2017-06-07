@@ -1,6 +1,7 @@
 <?php
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'timeZone' => 'Europe/Moscow',
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
@@ -11,6 +12,15 @@ return [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
+        ],
+        'log' => [
+            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'targets' => [
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning'],
+                ],
+            ],
         ],
     ],
 ];
