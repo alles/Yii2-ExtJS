@@ -20,8 +20,8 @@ class m130524_201442_init extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull()->unique(),
             'fee' => $this->decimal(10,2)->defaultValue(0),
-            'start_date' => $this->dateTime()->notNull(),
-            'end_date' => $this->dateTime()->notNull(),
+            'start_date' => $this->date()->notNull(),
+            'end_date' => $this->date()->notNull(),
             'id_cities' => $this->integer()->notNull(),
             'status' => 'enum("active", "inactive") not null default "inactive"',
 

@@ -13,6 +13,11 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+        'request' => [
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
+        ],
         'response' => [
             'format' => 'extjs',
             'formatters' => [
@@ -27,6 +32,15 @@ return [
             'enableStrictParsing' => true,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'rules' => [[
+                'class' => 'yii\rest\UrlRule',
+                'controller' => 'promo-code',
+                'except' => ['delete', 'view'],
+                'extraPatterns' => [
+                    'GET get_discount_info' => 'get-discount-info',
+                    'GET activate_discount' => 'activate-discount'
+                ]
+            ]],
         ],
     ],
     'params' => $params,
