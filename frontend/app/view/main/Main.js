@@ -12,6 +12,7 @@ Ext.define('InviteCode.view.main.Main', {
     requires: [
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
+        'Ext.container.Container',
 
         'InviteCode.view.main.MainController',
         'InviteCode.view.main.MainModel',
@@ -22,14 +23,30 @@ Ext.define('InviteCode.view.main.Main', {
     controller: 'main',
     viewModel: 'main',
 
-    layout: 'hbox',
-
     items: [{
-        xtype: 'mainlist',
-        flex: 1
+        xtype: 'container',
+        width: '100%',
+        html: [
+            '<ul>',
+                '<li>Please double click on the cell to edit the table</li>',
+                '<li>Format date = Y-m-d (ex. 2017-10-10)</li>',
+            '</ul>'
+        ].join(''),
+        style: {
+            background: '#e2e2e2'
+        },
+        margin: '0 0 10 0'
     }, {
-        xtype: 'mainform',
-        margin: '0 10',
-        width: 300
+        xtype: 'container',
+        layout: 'hbox',
+        items: [{
+            xtype: 'mainlist',
+            margin: '0 5 0 10',
+            flex: 1
+        }, {
+            xtype: 'mainform',
+            margin: '0 10 0 5',
+            width: 300
+        }]
     }]
 });
