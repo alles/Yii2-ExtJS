@@ -1,6 +1,7 @@
 # Simple example Yii2-ExtJS
 
-A simple example work Yii2(advanced template) + ExtJS.
+A simple example work Yii2(advanced template) + ExtJS. Data validation occurs
+only on the backend (Yii2), so most fields into frontend is textfield.
 
 ## Dependencies
 

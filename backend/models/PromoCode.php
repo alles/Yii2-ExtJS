@@ -1,6 +1,7 @@
 <?php
 
 namespace backend\models;
+use yii\web\ForbiddenHttpException;
 
 /**
  * This is the model class for table "promo_codes".
@@ -46,6 +47,23 @@ class PromoCode extends \yii\db\ActiveRecord
             [['name'], 'unique'],
             [['id_cities'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['id_cities' => 'id']],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+
+        $dirty = $this->getDirtyAttributes();
+        if (!$insert && $this->status == 'inactive' && !isset($dirty['status'])) {
+            throw new ForbiddenHttpException('Change data is denied, because status is inactive. Please activate discount.');
+        }
+
+        return true;
     }
 
     /**

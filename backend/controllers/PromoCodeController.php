@@ -50,7 +50,7 @@ class PromoCodeController extends \yii\rest\ActiveController
 
         if (isset($model)) {
             $model->status = 'active';
-            if ($model->save() === false && !$model->hasErrors()) {
+            if ($model->save() === false) {
                 throw new ServerErrorHttpException('Failed to activate discount.');
             }
 
