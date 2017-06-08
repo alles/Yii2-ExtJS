@@ -30,12 +30,18 @@ class PromoCode extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        $dateFormat = 'Y-m-d';
         return [
             [['name', 'start_date', 'end_date', 'id_cities', 'fee'], 'required'],
-            [['fee'], 'double'],
-            [['start_date', 'end_date'], 'date'],
+            [['status'], 'default', 'value' => 'inactive'],
+            [['fee'], 'double', 'min' => 0.01],
+            [['start_date', 'end_date'], 'date', 'format' => $dateFormat],
             [['id_cities'], 'integer'],
             [['status'], 'in', 'range' => ['active', 'inactive']],
+            ['start_date', 'compare', 'compareValue' => date($dateFormat), 'operator' => '>=', 'type' => 'date'],
+            ['end_date', 'compare', 'compareValue' => date($dateFormat), 'operator' => '>', 'type' => 'date'],
+            ['end_date', 'compare', 'compareAttribute' => 'start_date', 'operator' => '>', 'type' => 'date'],
+            ['name', 'match', 'pattern' => '/[a-zA-Z]/', 'message' => 'Invalid characters in Name'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
             [['id_cities'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['id_cities' => 'id']],
@@ -53,7 +59,7 @@ class PromoCode extends \yii\db\ActiveRecord
             'fee' => 'Fee',
             'start_date' => 'Start Date',
             'end_date' => 'End Date',
-            'id_cities' => 'Id Cities',
+            'id_cities' => 'Tariff zone',
             'status' => 'Status',
         ];
     }

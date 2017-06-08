@@ -14,7 +14,7 @@ class PromoCodeController extends \yii\rest\ActiveController
      * Get information about promo code.
      *
      * @param $name string
-     * @return PromoCode
+     * @return array [start_date, end_date, fee, city, status]
      * @throws NotFoundHttpException
      */
     public function actionGetDiscountInfo($name)
@@ -26,22 +26,27 @@ class PromoCodeController extends \yii\rest\ActiveController
             throw new NotFoundHttpException('Promo code not found.');
         }
 
-        return $model;
+        return [
+            'start_date' => $model->start_date,
+            'end_date' => $model->end_date,
+            'fee' => $model->fee,
+            'status' => $model->status
+        ];
     }
 
     /**
      * Activate promo code.
      *
      * @param $name string
-     * @param $city integer
+     * @param $id_cities integer
      * @return float
      * @throws ServerErrorHttpException
      * @throws NotFoundHttpException
      */
-    public function actionActivateDiscount($name, $city)
+    public function actionActivateDiscount($name, $id_cities)
     {
         $modelClass = $this->modelClass;
-        $model = $modelClass::findOne(['name' => $name, 'id_cities' => $city]);
+        $model = $modelClass::findOne(['name' => $name, 'id_cities' => $id_cities]);
 
         if (isset($model)) {
             $model->status = 'active';

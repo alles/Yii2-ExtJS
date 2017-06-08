@@ -9,13 +9,31 @@ Ext.define('InviteCode.view.main.MainController', {
 
     alias: 'controller.main',
 
-    onItemSelected: function (sender, record) {
-        Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
+    init: function () {
+        this.getViewModel().getStore('cities').on('load', function () {
+            this.getViewModel().getStore('promoCodes').load();
+        }, this);
     },
 
-    onConfirm: function (choice) {
-        if (choice === 'yes') {
-            //
+    onCreatePromoCode: function () {
+        var form = this.lookupReference('form'),
+            store = this.lookupReference('list').getStore();
+
+        store.add(form.getValues());
+    },
+
+    onGridButtonClick: function (btn) {
+        var rec = btn.lookupViewModel().get('record'),
+            store = this.lookupReference('list').getStore();
+
+        if (btn.getText() == 'Get Discount Info') {
+            store.getDiscountInfo(rec.get('name'));
+        } else {
+            store.activateDiscount(rec.id, rec.get('name'), rec.get('id_cities'));
         }
+    },
+
+    onChangeCity: function (el, val) {
+        var store = this.getViewModel().getStore('promoCodes');
     }
 });
